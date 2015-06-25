@@ -1,0 +1,89 @@
+<div id="sidebar">
+  <div id="quick-links" class="col-md-3">
+    <h4 id="may-sidebar" class="sub-description list-group-item"><i class="glyphicon glyphicon-arrow-up"></i>  May Reports</h4>
+    <div id="may-reports" class="description list-group collapse">
+
+      <a class="list-group-item" href="/reports/2015/may-04.html" title="May week 4 report">
+        
+        <i class="icon-pencil"></i>&nbsp; May Week Four Report
+
+      </a>
+      <a class="list-group-item" href="/reports/2015/may-03.html" title="May week 3 report">
+  
+        <i class="icon-pencil"></i>&nbsp; May Week Three Report
+
+      </a>
+      <a class="list-group-item" href="/reports/2015/may-02.html" title="May week 2 report">
+     
+        <i class="icon-pencil"></i>&nbsp; May Week Two Report
+
+      </a>
+      <a class="list-group-item" href="/reports/2015/may-01.html" title="May week 1 report">
+       
+        <i class="icon-pencil"></i>&nbsp; May Week One Report
+
+      </a>
+      <a class="list-group-item" href="/reports/2015/may-00.html" title="May Summary Report">
+        
+        <i class="icon-pencil"></i>&nbsp; May Summary Report
+
+      </a>
+
+    </div>
+    <h4 id="apr-sidebar" class="sub-description list-group-item"><i class="glyphicon glyphicon-arrow-up"></i>  April Reports</h4>
+    <div id="apr-reports" class="description list-group collapse">
+      <a class="list-group-item" href="/reports/2015/apr-04.html" title="April week 4 report"><i class="fa fa-check fa-fw"></i>&nbsp; April Week Four Report</a></li>
+      <a class="list-group-item" href="/reports/2015/apr-03.html" title="April week 3 report"><i class="fa fa-check fa-fw"></i>&nbsp; April Week Three Report</a></li>
+      <a class="list-group-item" href="/reports/2015/apr-02.html" title="April week 2 report"><i class="fa fa-check fa-fw"></i>&nbsp; April Week Two Report</a></li>
+      <a class="list-group-item" href="/reports/2015/apr-01.html" title="April week 1 report"><i class="fa fa-check fa-fw"></i>&nbsp; April Week One Report</a></li>
+      <a class="list-group-item" href="/reports/2015/apr-00.html" title="April Summary Report"><i class="fa fa-check fa-fw"></i>&nbsp; April Summary Report</a></li>
+    </div>
+    <h4 id="mar-sidebar" class="sub-description list-group-item"><i class="glyphicon glyphicon-arrow-up"></i>  March Reports</h4>
+    <div id="mar-reports" class="description list-group collapse">
+      <a class="list-group-item" href="/reports/2015/mar-04.html" title="March week 4 report"><i class="fa fa-check fa-fw"></i>&nbsp; March Week Four Report</a>
+      <a class="list-group-item" href="/reports/2015/mar-03.html" title="March week 3 report"><i class="fa fa-check fa-fw"></i>&nbsp; March Week Three Report</a>
+      <a class="list-group-item" href="/reports/2015/mar-02.html" title="March week 2 report"><i class="fa fa-check fa-fw"></i>&nbsp; March Week Two Report</a>
+      <a class="list-group-item" href="/reports/2015/mar-01.html" title="March week 1 report"><i class="fa fa-check fa-fw"></i>&nbsp; March Week One Report</a>
+      <a class="list-group-item" href="/reports/2015/mar-00.html" title="March Summary Report"><i class="fa fa-check fa-fw"></i>&nbsp; March Summary Report</a>
+    </div>
+    <h4 id="feb-sidebar" class="sub-description list-group-item"><i class="glyphicon glyphicon-arrow-up"></i>  February Reports</h4>
+    <div id="feb-reports" class="description list-group collapse">
+      <a class="list-group-item" href="/reports/2015/feb-04.html" title="february week 4 report"><i class="fa fa-check fa-fw"></i>&nbsp; February Week Four Report</a></li>
+      <a class="list-group-item" href="/reports/2015/feb-03.html" title="february week 3 report"><i class="fa fa-check fa-fw"></i>&nbsp; February Week Three Report</a></li>
+      <a class="list-group-item" href="/reports/2015/feb-02.html" title="february week 2 report"><i class="fa fa-check fa-fw"></i>&nbsp; February Week Two Report</a></li>
+      <a class="list-group-item" href="/reports/2015/feb-01.html" title="February week 1 report"><i class="fa fa-check fa-fw"></i>&nbsp; February Week One Report</a></li>
+      <a class="list-group-item" href="/reports/2015/feb-00.html" title="February Summary Report"><i class="fa fa-check fa-fw"></i>&nbsp; February Summary Report</a></li>
+    </div>
+    <h4 id="jan-sidebar" class="sub-description list-group-item"><i class="glyphicon glyphicon-arrow-up"></i>  January Reports</h4>
+    <div id="jan-reports" class="description list-group collapse">
+      <a class="list-group-item" href="/reports/2015/jan-04.html" title="january week 4 report"><i class="fa fa-check fa-fw"></i>&nbsp; January Week Four Report</a></li>
+      <a class="list-group-item" href="/reports/2015/jan-03.html" title="january week 3 report"><i class="fa fa-check fa-fw"></i>&nbsp; January Week Three Report</a></li>
+      <a class="list-group-item" href="/reports/2015/jan-02.html" title="january week 2 report"><i class="fa fa-check fa-fw"></i>&nbsp; January Week Two Report</a></li>
+      <a class="list-group-item" href="/reports/2015/jan-01.html" title="january week 1 report"><i class="fa fa-check fa-fw"></i>&nbsp; January Week One Report</a></li>
+      <a class="list-group-item" href="/reports/2015/jan-00.html" title="January Summary Report"><i class="fa fa-check fa-fw"></i>&nbsp; January Summary Report</a></li>
+    </div>
+  </div>
+
+<script>
+  $(document).ready(function () {
+    $("#sidebar h4.list-group-item").addClass("btn btn-info").attr("style","background-color: maroon");
+    $("#sidebar a.list-group-item").addClass("btn").attr("style","background-color: crimson; color: white;");
+
+    $("#may-sidebar").hover( function() {
+      $("#may-reports").slideToggle().delay(3500);
+    });
+    $("#apr-sidebar").hover( function() {
+      $("#apr-reports").slideToggle().delay(3500);
+    });
+    $("#mar-sidebar").hover( function() {
+      $("#mar-reports").slideToggle().delay(3500);
+    });
+    $("#feb-sidebar").hover( function() {
+      $("#feb-reports").slideToggle().delay(3500);
+    });
+    $("#jan-sidebar").hover( function() {
+      $("#jan-reports").slideToggle().delay(3500);
+      // $("#jan-sidebar>i").
+    });
+  });
+</script>

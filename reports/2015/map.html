@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PNG LOOP | Reporting App | Monthly Summary Report</title>
+    <script src="/jquery.js"></script>
+    <script src="/scripts/jquery-ui.js"></script>
+    <script src="/d3.min.js"></script>
+    <script src="/topojson.min.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/style.css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans|Oswald|Tangerine|Roboto:500|Droid+Serif|Lobster|Dancing+Script|Bangers" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <style>
+    .png_adm {
+      opacity: 0.5;
+    }
+    .png_adm.PNB {
+      fill: red;
+    }
+    .png_adm.PNX {
+      fill: rgb(255, 203, 0);;
+    }
+    .png_adm-PNX.map-border {
+      fill: none;
+      stroke: black;
+    }
+    text.place-label {
+      fill: black;
+      /*stroke: black;*/
+      /*stroke-width: .5px;*/
+    }
+    svg {
+      border: 2px solid black;
+    }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </head>
+
+    <body data-page-type="reporter" data-year="2015" data-month="may">
+      <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="http://d3js.org/topojson.v1.min.js"></script>
+
+      <div id="wrapper" class="container">
+        <!-- header replaced with this comment -->
+        <div id="insert-menu"></div>
+<!-- nav ends -->
+        <div id="content">
+          <div class="container" id="map">
+            <div id="inner-width" class="col-md-12 text-center"> <!-- copy this -->
+              <h3 class="text-capitalize headline">PNG Map- Isn't this awesome?</h3>
+              <p class="text-danger description">Below is a map of Papua New Guinea with some of its major town centres and populated areas.</p>
+            <!-- start copy here -->
+            </div>
+          </div>
+          <div id="insert-footer"></div>
+        </div>
+      </div>
+      <script>
+        $(function(){
+          $("#insert-menu").load("/menu.html");
+          $("#insert-footer").load("/footer.html");
+        })
+      </script>
+      <script>
+
+        var width = 1107, height = 635;
+        // var projection = d3.geo.albers()
+        //   .center([0, 55.4])
+        //   .rotate([4.4, 0])
+        //   .parallels([50, 60])
+        //   .scale(6000)
+        //   .translate([width / 2, height / 2]);
+        var projection = d3.geo.mercator()
+          .scale(3418)
+          .translate([(-(width*7.5)), -(75)])
+          .precision(.1);
+
+        var path = d3.geo.path().projection(projection);
+
+        var svg = d3.select("#map").append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+        d3.json("/data/2015/png.json", function (error, png) {
+          if (error) { return console.log(error); };
+          console.log(png);
+
+          var png_adm = png.objects.png_adm;
+          var png_places = png.objects.png_places;
+
+          // svg.append("path")
+          //   .datum(topojson.feature(png, png_adm))
+          //   // .attr("d", d3.geo.path().projection(d3.geo.mercator()));
+          //   .attr("d", path)
+          //   .attr("style", "fill: none;"); // stroke: black; stroke-width: 0.5px; 
+
+          svg.selectAll("png_adm")
+            .data(topojson.feature(png, png_adm).features)
+            .enter()
+              .append("path")
+              .attr("class", function (d) { return "png_adm " + d.id; })
+              .attr("d", path);
+
+          svg.append("path")
+            .datum(topojson.feature(png, png_adm, function (a,b) { return a!==b && a.id!=="PNB" }))
+            .attr("d", path)
+            .attr("class","png_adm-PNX map-border");
+
+          svg.append("path")
+            .datum(topojson.feature(png, png_places))
+            .attr("d", path)
+            .attr("class", "places");
+
+          svg.selectAll(".place-label")
+            .data(topojson.feature(png, png_places).features)
+            .enter()
+              .append("text")
+              .attr("class","place-label")
+              .attr("transform", function (d) { return "translate(" + projection(d.geometry.coordinates) + ")"; })
+              .attr("dy", ".35em")
+              .text(function (d) { return d.properties.name; });
+
+          svg.selectAll(".place-label")
+            .attr("x", function (d) { return d.geometry.coordinates[0] > -1 ? 8 : -8; })
+            .style("text-anchor", function (d) { return d.geometry.coordinates[0] > -1 ? "start" : "end"; });
+
+        });
+      </script>
+    </body>
+</html>
