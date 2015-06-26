@@ -70,7 +70,7 @@
               <h3 class="text-capitalize headline">SOUTH PACIFIC GAMES SCOREBOARD - version 0.0.1</h3>
               <p class="text-danger description">Displaying province names when mouse hovers over each province</p>
             </div>
-            <ul class="btn"></ul>
+            <ul class=""></ul>
           </div>
           <div id="insert-footer"></div>
         </div>
@@ -95,7 +95,8 @@
             .data(data)
             .enter()
               .append("li")
-              .attr("class","date btn-info text-uppercase")
+              .attr("class","date text-uppercase")
+              .attr("style","list-style: none;")
               .text(function (d, i) { 
                 for (var j = 0; j<data[i].events.length; j++) {
                   console.log(data[i].events[i].time);
