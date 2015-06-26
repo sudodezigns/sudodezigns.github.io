@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PNG LOOP | Map Data | MAP_03</title>
+    <script src="/jquery.js"></script>
+    <script src="/scripts/jquery-ui.js"></script>
+    <script src="/d3.min.js"></script>
+    <script src="/topojson.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans|Oswald|Tangerine|Roboto:500|Droid+Serif|Lobster|Dancing+Script|Bangers" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <style>
+      .png_adm {
+        opacity: 0.5;
+      }
+      .png_adm.PNB {
+        fill: red;
+      }
+      .png_adm.PNX {
+        fill: rgb(255, 203, 0);;
+      }
+      .png_adm-PNX.map-border {
+        fill: none;
+        stroke: black;
+      }
+      path.places {
+        fill: none;
+        stroke: blue;
+        stroke-width: 0.5px;
+      }
+      text.place-label {
+        fill: black;
+        /*stroke: black;*/
+        /*stroke-width: .5px;*/
+      }
+      svg {
+        border: 2px solid black;
+      }
+      span#map-data {
+        border: 1px solid black;
+        padding: 1em 1.25em;
+        position: absolute;
+      }
+      .province-name {
+        font-size: 1.25em;
+        fill: dark-red;
+        /*opacity: .75;*/
+        padding: 0.25em 0.75em;
+        border: 2px solid black;
+        stroke-width: 2px;
+        stroke: solid black;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </head>
+
+    <body data-page-type="reporter" data-year="2015" data-month="may">
+    <!--  <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="http://d3js.org/topojson.v1.min.js"></script>
+      -->
+      <div id="wrapper" class="container">
+        <div id="insert-menu"></div>
+        <div id="content">
+          <div class="container" id="map">
+            <div id="inner-width" class="col-md-12 text-center"> <!-- copy this -->
+              <h3 class="text-capitalize headline">SOUTH PACIFIC GAMES SCOREBOARD - version 0.0.1</h3>
+              <p class="text-danger description">Displaying province names when mouse hovers over each province</p>
+            </div>
+          </div>
+          <span id="map-data" class="text-warning"><text>Province - Area (sq. km)</text></span>
+          <div id="insert-footer"></div>
+        </div>
+      </div>
+
+      <script>
+        var width = 1107, height = 660;
+        var projection = d3.geo.mercator()
+          .scale(3200)
+          .translate([(-(width*7.0112575)), -(35)])
+          .precision(.1);
+        var path = d3.geo.path().projection(projection);
+        var zoom = d3.behavior.zoom()
+          .scaleExtent([1,8])
+          .on("zoom", zoomed);
+        var svg = d3.select("#map")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height);
+        d3.json("/data/spgames/sport_codes.json", function (error, data) {
+          // if (error) { return console.log(error); };
+          console.log(data);
+          svg.selectAll("text")
+            .data(data)
+            .enter()
+              .append("text")
+              .attr("class","text-capitalize")
+              .attr("transform","translate("+ 10 +","+ 25 +")")
+              .attr("y", function (d, i) { return i*15})
+              .text(function (d) { return d.sport; });
+        });
+        // d3.json("/data/tests/png.json", function (error, png) {
+        //   if (error) { return console.log(error); };
+        //   // console.log(png);
+        //   var png_admin = png.objects.png_admin;
+        //   var png_roads = png.objects.png_roads;
+        //   var png_water_areas = png.objects.png_water_areas;
+        //   var png_water_lines = png.objects.png_water_lines;
+        //   // colors
+        //   var colors = d3.scale.linear()
+        //     .domain([2289,2306])
+        //     .range(["blue","skyblue"]);
+        //   var map_scale = d3.scale.linear()
+        //     .domain([0.182201,8.116233])
+        //     .range([2000, 98189]);
+        //   var font_scale = d3.scale.linear()
+        //     .domain([0.182201,8.116233])
+        //     .range([8, 14]);
+        //   svg.append("g")
+        //     .attr("class","png-border")
+        //     .append("path")
+        //     .datum(topojson.feature(png, png_admin))
+        //     .attr("d", path)
+        //     .attr("style", "fill: none; stroke: black; stroke-width: 0.5px;"); //  
+        //   var provinces = svg.selectAll("png_admin")
+        //     .data(topojson.feature(png, png_admin).features)
+        //     .enter()
+        //       .append("g")
+        //       .attr("class", function (d) { return "province province-" + d.id; })
+        //       .append("path")
+        //       .attr("class", function (d) { return d.id; })
+        //       .attr("d", path)
+        //       .style("fill", function (d) { return colors(d.id); } )
+        //       .on("click", function (d) {
+        //         URL("/reports/2015/map.html")
+        //       })
+        //       .on("mouseover", function (d) {
+        //         var textLocArray = [path.centroid(d)];  // stores the location for the city name to be displayed
+        //         var font_size = font_scale(d.properties.area);
+        //         d3.select(this)
+        //           .transition()
+        //           .ease("bounce")
+        //           .duration(1000)
+        //           .delay(250)
+        //           .attr("style","fill: aliceblue;");
+        //         d3.select("g.province-names")
+        //           .append("text")
+        //           .attr("transform", function (d) { return "translate(" + textLocArray + ")"; })
+        //           .text(d.properties.name)
+        //           .attr("class","text-center description province-name text-uppercase")
+        //           .attr("style","text-anchor: middle;")
+        //           .style("font-size", "10");
+        //       })
+        //       .on("mouseout", function (d) {
+        //         d3.select(this)
+        //           .transition()
+        //           .ease("bounce")
+        //           .duration(1000)
+        //           .delay(750)
+        //           .style("fill", function (d) { return colors(d.id); } );
+        //         d3.select("g.province-names").text("");
+        //       });
+        //   svg.append("g").attr("class","province-names");
+        // });
+        function zoomed() {
+          g.attr("transform","translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        }
+        d3.select(self.frameElement).style("height", height + "px");
+      </script>
+      <script>
+        $(function(){
+          $("#insert-menu").load("/menu.html");
+          $("#insert-footer").load("/footer.html");
+        })
+      </script>
+   </body>
+</html>

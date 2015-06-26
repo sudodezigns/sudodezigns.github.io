@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SUDO DEZIGNS | PNG GAMES | MEDAL TALLY </title>
+    <script src="/jquery.js"></script>
+    <script src="/scripts/jquery-ui.js"></script>
+    <script src="/d3.min.js"></script>
+    <script src="/topojson.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans|Oswald|Tangerine|Roboto:500|Droid+Serif|Lobster|Dancing+Script|Bangers" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <style>
+      .png_adm {
+        opacity: 0.5;
+      }
+      .png_adm.PNB {
+        fill: red;
+      }
+      .png_adm.PNX {
+        fill: rgb(255, 203, 0);;
+      }
+      .png_adm-PNX.map-border {
+        fill: none;
+        stroke: black;
+      }
+      path.places {
+        fill: none;
+        stroke: blue;
+        stroke-width: 0.5px;
+      }
+      text.place-label {
+        fill: black;
+        /*stroke: black;*/
+        /*stroke-width: .5px;*/
+      }
+      svg {
+        border: 2px solid black;
+      }
+      span#map-data {
+        border: 1px solid black;
+        padding: 1em 1.25em;
+        position: absolute;
+      }
+      .province-name {
+        font-size: 1.25em;
+        fill: dark-red;
+        /*opacity: .75;*/
+        padding: 0.25em 0.75em;
+        border: 2px solid black;
+        stroke-width: 2px;
+        stroke: solid black;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </head>
+
+    <body data-page-type="reporter" data-year="2015" data-month="may">
+    <!--  <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="http://d3js.org/topojson.v1.min.js"></script>
+      -->
+      <div id="wrapper" class="container">
+        <div id="insert-menu"></div>
+        <div id="content">
+          <div class="container" id="map">
+            <div id="inner-width" class="col-md-12 text-center"> <!-- copy this -->
+              <h3 class="text-capitalize headline">SOUTH PACIFIC GAMES SCOREBOARD - version 0.0.1</h3>
+              <p class="text-danger description">Displaying province names when mouse hovers over each province</p>
+            </div>
+            <ul class="btn"></ul>
+          </div>
+          <div id="insert-footer"></div>
+        </div>
+      </div>
+
+      <script>
+        var ext_data;
+        var width = 1107, height = 660;
+        var projection = d3.geo.mercator()
+          .scale(3200)
+          .translate([(-(width*7.0112575)), -(35)])
+          .precision(.1);
+        var path = d3.geo.path().projection(projection);
+        var zoom = d3.behavior.zoom()
+          .scaleExtent([1,8])
+          .on("zoom", zoomed);
+        d3.json("/data/spgames/matchups-02.json", function (error, data) {
+          console.log(data);
+          ext_data=data;
+          var list = d3.select("#map>ul");
+          list.selectAll("li.date")
+            .data(data)
+            .enter()
+              .append("li")
+              .attr("class","date btn-info text-uppercase")
+              .text(function (d, i) { 
+                for (var j = 0; j<data[i].events.length; j++) {
+                  console.log(data[i].events[i].time);
+                  console.log(data[i].events[i].sport);
+                  console.log(data[i].events[i].gender);
+                  console.log(data[i].events[i].category);
+                  console.log(data[i].events[i].venue);
+                }
+                return d.date;
+              })
+        })
+;
+        function zoomed() {
+          g.attr("transform","translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        }
+        d3.select(self.frameElement).style("height", height + "px");
+      </script>
+      <script>
+        $(function(){
+          $("#insert-menu").load("/menu.html");
+          $("#insert-footer").load("/footer.html");
+        })
+      </script>
+   </body>
+</html>
