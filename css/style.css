@@ -1974,3 +1974,6 @@ article img.pull-right, article .align-right{
 @media (max-width: 360px) {
 
 }
+span.h6.date.text-capitalize.tbody {
+  padding: 0 0 0 5em;
+}

@@ -67,8 +67,8 @@
         <div id="content">
           <div class="container" id="map">
             <div id="inner-width" class="col-md-12 text-center"> <!-- copy this -->
-              <h3 class="text-capitalize headline">SOUTH PACIFIC GAMES SCOREBOARD - version 0.0.1</h3>
-              <p class="text-danger description">Displaying province names when mouse hovers over each province</p>
+              <h3 class="text-capitalize headline">SOUTH PACIFIC GAMES SCOREBOARD - version 0.0.2</h3>
+              <p class="text-danger description">the javascript console logically lists all the data in the files but how do I call it up using the D3JS Library? This crucial question will be answered in this minor release.</p>
             </div>
             <ul class="table"></ul>
           </div>
@@ -79,57 +79,59 @@
       <script>
         var ext_data;
         d3.json("/data/spgames/matchups-02.json", function (error, data) {
-          console.log(data);
+          // console.log(data);
           ext_data=data;
+
+          // datelist list the dates.
           var dateList = d3.select("#map>ul").selectAll("li.date")
               .data(data)
               .enter()
                 .append("li")
+                .attr("id", function (d) {
+                  var july = d.date.indexOf("J"), getJul = d.date.substr(july,3), julDate = d.date.substr(d.date.indexOf("ly")+3,2);
+                  console.log(getJul+"-"+julDate);
+                  return getJul+"-"+julDate;
+                })
                 .attr("class","date h4 text-uppercase thead")
                 .attr("style","list-style: none; font-family: Century Gothic, Tahoma")
-                .text(function (d, i) { 
-                  console.log(d.date);
-                  for (var j = 0; j<data[i].events.length; j++) {
-                    console.log(data[i].events[j].gametime);
-                    console.log(data[i].events[j].sport);
-                    console.log(data[i].events[j].gender);
-                    console.log(data[i].events[j].category);
-                    console.log(data[i].events[j].venue);
-                  }
-                  return d.date;
-                });
-          var gamesList = dateList.call( function (selection) {
-          selection.each( function (d) {
-              d3.select(this).each( function (d) {
-                d3.select(this)
-                  .append("p").attr("class","list-child")
-                  .append("span").attr("class","list-grandchild h6 date text-capitalize tbody")
-                  .attr("style","list-style: none; font-family: Tahoma, Century Gothic")
-                  .text(function (d, i) { return data[i].events[i].gametime + " " + data[i].events[i].sport;})
-                  .insert("span.list-grandchild","span")
-                  .append("span").attr("class","h6 date text-capitalize tbody")
-                  .text(function (d, i) { return data[i].events[i].gender;})
-                  .insert("span.list-grandchild","span")
-                  .append("span").attr("class","h6 date text-capitalize tbody")
-                  .text(function (d, i) { return data[i].events[i].category;})
-                  .insert("span.list-grandchild","span")
-                  .append("span").attr("class","h6 date text-capitalize tbody")
-                  .text(function (d, i) { return data[i].events[i].venue;})
-              })
-            })
-          })
-                // .on("mouseover", function (d) {
-                //   d3.select(this)
-                //     .insert("ul","li.date") 
-                //     .append("li")
-                //     .slideDown();
-                //     // .transition().ease("bounce").duration(1500).delay(250);
-                // })
-                // .on("mouseout", function (d) {
-                //   d3.select(this>"ul").slideToggle();
-                // })
-        })
-;
+                .text(function (d) { return d.date; })
+                .call(initDiv);
+
+          function initDiv(selection) {
+            selection.each(function (dataset, count) {
+              var thisSelection = d3.select(this).append("ul").attr("class","tbody sublist");
+              thisSelection.append("li").attr("class","tbody text-capitalize").attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
+              .text( function (d, i) {
+                  return d.events[i].gametime;
+                });// close text function
+
+              thisSelection.append("li").attr("class","tbody text-capitalize").attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
+              .text( function (d, i) {
+                  return d.events[i].sport;
+                });// close text function
+
+              thisSelection.append("li").attr("class","tbody text-capitalize").attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
+              .text( function (d, i) {
+                  return d.events[i].gender;
+                });// close text function
+
+              thisSelection.append("li").attr("class","tbody text-capitalize").attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
+              .text( function (d, i) {
+                  return d.events[i].category;
+                });// close text function
+
+              thisSelection.append("li").attr("class","tbody text-capitalize").attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
+              .text( function (d, i) {
+                  return d.events[i].venue;
+                });// close text function
+
+              thisSelection.append("li").attr("class","tbody text-capitalize").attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
+              .text("---");// close text function
+
+            }); // close selection function
+          }; // close off function initDiv
+
+        });
       </script>
       <script>
         $(function(){
