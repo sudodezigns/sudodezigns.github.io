@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Moderna - Bootstrap 3 flat corporate template</title>
+<title>SUDO DEZIGNS | PACIFIC GAMES DRAWS | ALL</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="" />
 <meta name="author" content="http://bootstraptaste.com" />
@@ -15,7 +15,7 @@
 
 
 <!-- Theme skin -->
-<link href="skins/default.css" rel="stylesheet" />
+<link href="/skins/default.css" rel="stylesheet" />
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -45,40 +45,21 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <h3 class="text-capitalize headline">SOUTH PACIFIC GAMES SCOREBOARD - version 0.0.3</h3>
+          <h3 class="text-capitalize headline">SOUTH PACIFIC GAMES 2015<br />GAME DRAWS SIMPLE WEB APP - ver 0.0.4</h3>
           <p class="text-info description">Problems to be address in this release:
             <ol>
-              <li class="text-success">[done] - The javascript console logically lists all the data in the datafile but how do I call it up using the D3JS Library?</li>
-              <li class="text-success">[done] - The for loop for listing all events in a particular day keeps failing to do its job</li>
-              <li class="text-danger">The bugs in this version have already been fixed. Check out version <a href="/reports/2015/png-games-04.html" title="ver: 0.0.4">ver 0.0.4</a> here!</li>
-            </ol>
-          </p>
-          <p class="text-info description">Changes to look for in the upcoming release
-            <ol>
-              <li>The dates will be in accordion format</li>
+              <li class="text-warning">Minor theming/styling</li>
+              <li class="text-warning">Ready for release</li>
             </ol>
           </p>
         </div>
-      <!-- divider -->
         <div class="row">
-          <div class="col-lg-12">
-            <div class="solidline">
-            </div>
+          <div id="datatable" class="col-sm-6 col-xs-12">
+            <ul></ul>
           </div>
-        </div>
-      <!-- end divider -->
-      <div id="datatable">
-          <ul></ul>
+          <div id="eventviewer"></div>
         </div>
       </div>
-      <!-- divider -->
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="solidline">
-            </div>
-          </div>
-        </div>
-      <!-- end divider -->
     </div>
   </section>    
   <a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
@@ -114,32 +95,34 @@
           .attr("class","date h4 text-uppercase thead")
           .attr("style","list-style: none; font-family: Century Gothic, Tahoma")
           .text(function (d) { return d.date; })
-          .call(initDiv);
+          // .append("ul").attr("class","tbody sublist")
+          // .call(initDiv);
+          .on("click", function() { d3.select(this).call(initDiv); })
+          // .on("mouseover", function() { d3.select(this).call(initDiv); })
+          // .on("mouseout", function () { d3.select(this).remove();})
+          ;
 
     function initDiv(selection) {
       selection.each(function (dataset, count) {
         var thisSelection = d3.select(this).append("ul").attr("class","tbody sublist");
 
-// check the for loop!
-
         for (var j=0; j<ext_data[count].events.length; j++) {
-          thisSelection.append("li").attr("class","tbody text-capitalize").attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
-          .text( function (d, i) {return data[count].events[j].gametime;});// close text function
+          var newSelection = thisSelection.append("ul").attr("class","tbody sublist");
+          newSelection.append("li").attr("class",function () { return "id-"+count+"-"+j+" tbody text-capitalize"; }).attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
+          .text( function (d, i) {return data[count].events[j].gametime +" hrs "+ data[count].events[j].sport;});// close text function
          
-          thisSelection.append("li").attr("class","tbody text-capitalize").attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
-          .text( function (d, i) { return data[count].events[j].sport; });// close text function
-         
-          thisSelection.append("li").attr("class","tbody text-capitalize").attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
+          newSelection.append("li").attr("class",function () { return "id-"+count+"-"+j+" tbody text-capitalize"; }).attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
           .text( function (d, i) { return data[count].events[j].gender; });// close text function
           
-          thisSelection.append("li").attr("class","tbody text-capitalize").attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
+          newSelection.append("li").attr("class",function () { return "id-"+count+"-"+j+" tbody text-capitalize"; }).attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
           .text( function (d, i) { return data[count].events[j].category; });// close text function
           
-          thisSelection.append("li").attr("class","tbody text-capitalize").attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
+          newSelection.append("li").attr("class",function () { return "id-"+count+"-"+j+" tbody text-capitalize"; }).attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
           .text( function (d, i) { return data[count].events[j].venue; });// close text function
+        
           
-          thisSelection.append("li").attr("class","tbody text-capitalize").attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
-          .text("---");// close text function
+          // thisSelection.append("li").attr("id",function () { return count+"-"+j; }).attr("class"," tbody text-capitalize").attr("style","list-style: none; color: bisque; font-family: Tahoma; font-size: 1.125em;")
+          // .text("---");// close text function
         } // close for loop
 
       }); // close selection function

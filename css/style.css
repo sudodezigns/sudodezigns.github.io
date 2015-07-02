@@ -1977,3 +1977,12 @@ article img.pull-right, article .align-right{
 span.h6.date.text-capitalize.tbody {
   padding: 0 0 0 5em;
 }
+li.date {
+  padding: 0.25em 0.5em 0.25em 0.5em;
+  background-color: bisque;
+  color: darkorange;
+  box-shadow: 2px 2px 2px darkorange;
+}
+li.0-0.tbody.text-capitalize {
+	background-color: white;
+}
