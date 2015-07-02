@@ -45,20 +45,20 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <h3 class="text-capitalize headline">SOUTH PACIFIC GAMES 2015<br />GAME DRAWS SIMPLE WEB APP - ver 0.0.4</h3>
-          <p class="text-info description">Problems to be address in this release:
+          <h3 class="text-capitalize headline">SOUTH PACIFIC GAMES 2015<br />GAME DRAWS SIMPLE WEB APP<!--  - ver 0.0.4 --></h3>
+          <!-- <p class="text-info description">Problems to be address in this release:
             <ol>
               <li class="text-warning">Minor theming/styling</li>
               <li class="text-warning">Ready for release</li>
             </ol>
-          </p>
+          </p> -->
         </div>
-        <div class="row">
-          <div id="datatable" class="col-sm-6 col-xs-12">
-            <ul></ul>
-          </div>
-          <div id="eventviewer"></div>
+      </div>
+      <div class="row">
+        <div id="datatable" class="col-sm-6 col-xs-12">
+          <ul></ul>
         </div>
+        <div id="eventviewer"></div>
       </div>
     </div>
   </section>    
@@ -97,9 +97,9 @@
           .text(function (d) { return d.date; })
           // .append("ul").attr("class","tbody sublist")
           // .call(initDiv);
-          .on("click", function() { d3.select(this).call(initDiv); })
+          .on("click", function() { d3.select(this).call(initDiv);})
           // .on("mouseover", function() { d3.select(this).call(initDiv); })
-          // .on("mouseout", function () { d3.select(this).remove();})
+          // .on("", function () { d3.selectAll("ul.gameslist").remove();})
           ;
 
     function initDiv(selection) {
@@ -107,7 +107,7 @@
         var thisSelection = d3.select(this).append("ul").attr("class","tbody sublist");
 
         for (var j=0; j<ext_data[count].events.length; j++) {
-          var newSelection = thisSelection.append("ul").attr("class","tbody sublist");
+          var newSelection = thisSelection.append("ul").attr("class","tbody sublist gameslist");
           newSelection.append("li").attr("class",function () { return "id-"+count+"-"+j+" tbody text-capitalize"; }).attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
           .text( function (d, i) {return data[count].events[j].gametime +" hrs "+ data[count].events[j].sport;});// close text function
          
@@ -117,16 +117,15 @@
           newSelection.append("li").attr("class",function () { return "id-"+count+"-"+j+" tbody text-capitalize"; }).attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
           .text( function (d, i) { return data[count].events[j].category; });// close text function
           
-          newSelection.append("li").attr("class",function () { return "id-"+count+"-"+j+" tbody text-capitalize"; }).attr("style","list-style: none; font-family: Tahoma; font-size: .7125em;")
+          newSelection.append("li").attr("class",function () { return "id-"+count+"-"+j+" tbody text-capitalize"; }).attr("style","list-style: none; font-family: Tahoma; font-size: .7125em; padding-bottom: 0.5em;")
           .text( function (d, i) { return data[count].events[j].venue; });// close text function
-        
-          
-          // thisSelection.append("li").attr("id",function () { return count+"-"+j; }).attr("class"," tbody text-capitalize").attr("style","list-style: none; color: bisque; font-family: Tahoma; font-size: 1.125em;")
-          // .text("---");// close text function
         } // close for loop
-
       }); // close selection function
     }; // close off function initDiv
+
+    // function hideDiv(selection) {
+    //   selection.remove();
+    // };
 
   });
 </script>

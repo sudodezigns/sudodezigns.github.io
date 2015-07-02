@@ -1983,6 +1983,18 @@ li.date {
   color: darkorange;
   box-shadow: 2px 2px 2px darkorange;
 }
-li.0-0.tbody.text-capitalize {
-	background-color: white;
+ul.gameslist:nth-child(2n) {
+	color: cadetblue;
+}
+ul.gameslist:nth-child(2n+1) {
+	color: cornflowerblue;
+}
+ul.gameslist:nth-child(1) {
+	padding-top: 0.5em;
+}
+ul.gameslist:nth-last-child(1) {
+	padding-bottom: 1em;
+}
+ul.gameslist {
+	padding-bottom: 0.25em;
 }
