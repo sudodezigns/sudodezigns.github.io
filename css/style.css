@@ -1998,3 +1998,24 @@ ul.gameslist:nth-last-child(1) {
 ul.gameslist {
 	padding-bottom: 0.25em;
 }
+#datatable table {
+  color: white;
+  font-weight: 600;
+  border: 2px solid cadetblue;
+  text-align: right;
+}
+#datatable table>tr{
+	height: 1.275em;
+}
+#datatable table>tr:nth-child(2n+1) {
+	background-color: cadetblue;
+}
+#datatable table>tr:nth-child(2n) {
+	background-color: teal;
+}
+td.medals {
+	padding: 0 1em;
+}
+td.country {
+	padding: 0 0 0 1.75em;
+}
