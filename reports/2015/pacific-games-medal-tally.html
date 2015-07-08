@@ -55,7 +55,7 @@
           </p> -->
         </div>
       </div>
-      <div id="graphs" class="row col-sm-6">
+      <div id="graphs" class="row col-sm-12">
         <h3 class="text-uppercase">Top 3 Nations</h3>
         <div id="first" class="col-sm-4"></div>
         <div id="second" class="col-sm-4"></div>
@@ -63,7 +63,7 @@
       </div>
       <div class="row">
         <div id="datatable" class="col-xs-12">
-          <p class="text-uppercase"><small>last updated: 8th July 9AM</small></p>
+          <p class="text-uppercase"><small>last updated: 8th July 11PM</small></p>
           <table>
             <!-- <td>country</td><td>gold</td><td>silver</td><td>bronze</td><td>total</td> -->
           </table>
@@ -94,9 +94,9 @@
   var ext_data;
   d3.csv('/data/spgames/medal-tally.csv', function(data) {
     ext_data = data;
-    console.log(d3.max(data, function (d) { return +d.Total; }));
+    // console.log(d3.max(data, function (d) { return +d.Total; }));
 
-    var chartDimensions = {"h":100, "w":400};
+    var chartDimensions = {"h":100, "w":370};
     var heightScale = d3.scale.linear().domain([0, d3.max(data, function (d) { return +d.Total; })]).range([0, (chartDimensions.w*3/4)]);
     var colorScale = d3.scale.linear().domain([0,1,2]).range(["gold","silver","brown"]);
 
@@ -150,6 +150,23 @@
   //   console.log("----------------------------------------")
   //   console.log("ROWS!" + rows);
   });
+</script>
+<script>
+  // var temp_data;
+  // // d3.json('/data/2015/weatherdata.json', function(err, data) {
+  // d3.json('http://api.openweathermap.org/data/2.5/weather?q=Lae,pg&unit=metric', function(err, data) {
+  //   // console.log(data);
+  //   temp_data = data;
+  //   var chart2 = d3.select("#second").append('svg').attr({
+  //     "width": 300,
+  //     "height": 300
+  //   });
+
+  //   var graph2 = chart2.selectAll("text").data(data);
+
+  //   graph2.enter().append('text').attr("y", function (d, i) { return 22.5 + i*22.5; }).attr("x", 20)
+  //     .text(function (d,i) { return d; });
+  // });
 </script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
