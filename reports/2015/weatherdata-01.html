@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SUDO DEZIGNS | PACIFIC GAMES DRAWS | ALL</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<meta name="author" content="http://bootstraptaste.com" />
+<!-- css -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+<link href="/css/fancybox/jquery.fancybox.css" rel="stylesheet">
+<!-- <link href="/css/jcarousel.css" rel="stylesheet" /> -->
+<link href="/css/flexslider.css" rel="stylesheet" />
+<link href="/css/style.css" rel="stylesheet" />
+
+
+<!-- Theme skin -->
+<link href="/skins/default.css" rel="stylesheet" />
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+    <body data-page-type="reporter" data-year="2015" data-month="may">
+<div id="wrapper">
+  <!-- start header -->
+  <div id="insert-menu"></div>
+  <!-- end header -->
+  <section id="inner-headline">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i></a><i class="icon-angle-right"></i></li>
+            <li><a href="#">Projects</a><i class="icon-angle-right"></i></li>
+            <li class="active">Weather Data</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- start replacement -->
+  <section id="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h3 class="text-uppercase headline">weather data visualizer<!--  - ver 0.0.1 --></h3>
+          <!-- <p class="text-info description">Problems to be address in this release:
+            <ol>
+              <li class="text-warning">Minor theming/styling</li>
+              <li class="text-warning">Ready for release</li>
+            </ol>
+          </p> -->
+        </div>
+      </div>
+      <div id="graphs" class="row col-sm-12">
+        <h3 class="text-uppercase">three graphs</h3>
+        <div id="first" class="col-sm-4"></div>
+        <div id="second" class="col-sm-4"></div>
+        <div id="third" class="col-sm-4"></div>
+      </div>
+      <div class="row">
+        <div id="datatable" class="col-xs-12">
+          <p class="text-uppercase"><small>last updated: 8th July 11PM</small></p>
+          <table></table>
+        </div>
+      </div>
+    </div>
+  </section>    
+  <a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
+<!-- end replacement -->
+<!-- javascript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+  <script src="/js/jquery.js"></script>
+  <script src="/js/jquery.easing.1.3.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery.fancybox.pack.js"></script>
+  <script src="/js/jquery.fancybox-media.js"></script>
+  <script src="/js/google-code-prettify/prettify.js"></script>
+  <script src="/js/portfolio/jquery.quicksand.js"></script>
+  <script src="/js/portfolio/setting.js"></script>
+  <script src="/js/jquery.flexslider.js"></script>
+  <script src="/js/animate.js"></script>
+  <script src="/js/custom.js"></script>
+  <script src="/script.js"></script>
+  <script src="/d3/d3.min.js"></script>
+<script>
+  var temp_data;
+  d3.json("http://api.openweathermap.org/data/2.5/weather?q=Lae,PG&unit=metric&APPID=375cc7f16728bf0dddde9ec5c3a33f0b", function(err, weatherdata) {
+    console.log(weatherdata.coord.lon);
+    temp_data = weatherdata;
+    var chart1 = d3.select("#first").append("svg").attr("width","300").attr("height","200");
+    chart1//.selectAll("rect")
+    .data(weatherdata)
+      .enter().append("rect")
+          .attr("x", 10)
+          .attr("y", 10)
+          .attr("width", 100)
+          .attr("height", 100)
+          // .attr("rx", 0)
+          // .attr("ry", 0)
+          .style("fill", "#000");
+    chart1//.selectAll("circle")
+    .data(temp_data)
+    .enter().append("circle")
+        .attr("cx", 20)
+        .attr("cy", 20)
+        .attr("r", 100)
+        .style("fill", "#000");
+    chart1//.selectAll("text")
+    .data(temp_data).enter().append("text").text("Freaky Frida");
+  });
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64745241-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+   </body>
+</html>

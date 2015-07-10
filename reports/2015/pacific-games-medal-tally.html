@@ -56,10 +56,15 @@
         </div>
       </div>
       <div id="graphs" class="row col-sm-12">
-        <h3 class="text-uppercase">Top 3 Nations</h3>
-        <div id="first" class="col-sm-4"></div>
-        <div id="second" class="col-sm-4"></div>
-        <div id="third" class="col-sm-4"></div>
+        <div class="row">
+          <h3 class="text-uppercase">Top 3 Nations</h3>
+          <div id="first" class="col-sm-4"></div>
+          <div id="second" class="col-sm-4"></div>
+          <div id="third" class="col-sm-4"></div>
+        </div>
+        <div class="row">
+          <div id="fixtures"></div>
+        </div>
       </div>
       <div class="row">
         <div id="datatable" class="col-xs-12">
@@ -92,80 +97,91 @@
 <script src="/d3/d3.js"></script>
 <script>
   var ext_data;
-  d3.csv('/data/spgames/medal-tally.csv', function(data) {
+  d3.csv("/data/spgames/medal-tally.csv", function(data) {
     ext_data = data;
     // console.log(d3.max(data, function (d) { return +d.Total; }));
 
-    var chartDimensions = {"h":100, "w":370};
+    var chartDimensions = {"h":100, "w":350};
     var heightScale = d3.scale.linear().domain([0, d3.max(data, function (d) { return +d.Total; })]).range([0, (chartDimensions.w*3/4)]);
     var colorScale = d3.scale.linear().domain([0,1,2]).range(["gold","silver","brown"]);
 
-    var chart1 = d3.select("#first").append('svg').attr({"width": chartDimensions.w,"height": chartDimensions.h});
+    var chart1 = d3.select("#first").append("svg").attr({"width": chartDimensions.w,"height": chartDimensions.h});
     var barChar1 = chart1.selectAll("rect").data(data);
     // create rectangles
-    barChar1.enter().append('rect')
+    barChar1.enter().append("rect")
       .filter(function(d, i) { if (i < 3) { return d; }; })
-      .attr('x', 0)
-      .attr('y', function (d,i) { return i*25; })
-      .attr('width', function (d) { return heightScale(d.Total); })
-      .attr('height', 22.5)
-      .style('fill', function (d,i) { return colorScale(i)});
+      .attr("x", 0)
+      .attr("y", function (d,i) { return i*25; })
+      .attr("width", function (d) { return heightScale(d.Total); })
+      .attr("height", 22.5)
+      .style("fill", function (d,i) { return colorScale(i)});
 
     // create rectangle labels
     var barChar1Label = chart1.selectAll("text").data(data);
-    barChar1Label.enter().append('text')
+    barChar1Label.enter().append("text")
       .filter(function(d, i) { if (i < 3) { return d; }; })
-      .attr('x', 10)
-      .attr('y', function (d,i) { return 16 + i*25; })
+      .attr("x", 10)
+      .attr("y", function (d,i) { return 16 + i*25; })
       .text(function (d) { return d.Country + ": " + d.Gold + " + " + d.Silver + " + " + d.Bronze + " = " + d.Total; })
-      .attr('style', 'fill: white; font-family: Tahoma; font-size: .85em;');
+      .attr("style", "fill: white; font-family: Tahoma; font-size: .85em;");
         
 
-    var datatable = d3.select("#datatable>table").selectAll("td")
-    .data(data)
-    .enter().append('tr');
+    var chart2 = d3.select("#second").append("svg").attr({"width": chartDimensions.w,"height": chartDimensions.h});
+    var barChar2 = chart2.selectAll("rect").data(data);
+    // create rectangles
+    barChar2.enter().append("rect")
+      .filter(function(d, i) { if (i < 3) { return d; }; })
+      .attr("x", 0)
+      .attr("y", function (d,i) { return i*25; })
+      .attr("width", function (d) { return heightScale(d.Total); })
+      .attr("height", 22.5)
+      .style("fill", function (d,i) { return colorScale(i)});
 
-    datatable.append('td')
-      .attr('class', 'country text-uppercase')
-      .text(function (d,i) { return d.Country; })
-    datatable.append('td')
-      .attr('class', 'gold medals text-uppercase text-center')
-      .text(function (d,i) {
-        return d.Gold;})
-    datatable.append('td')
-      .attr('class', 'silver medals text-uppercase text-center')
-      .text(function (d,i) {
-        return d.Silver;})
-    datatable.append('td')
-      .attr('class', 'silver medals text-uppercase text-center')
-      .text(function (d,i) {
-        return d.Bronze;})
-    datatable.append('td')
-      .attr('class', 'bronze medals text-uppercase text-center')
-      .text(function (d,i) {
-        return d.Total;})
-      ;
-  // }, function(err, rows) {
-  //   console.log("ERROR!" + err);
-  //   console.log("----------------------------------------")
-  //   console.log("ROWS!" + rows);
+    // create rectangle labels
+    var barChar2Label = chart2.selectAll("text").data(data);
+    barChar2Label.enter().append("text")
+      .filter(function(d, i) { if (i < 3) { return d; }; })
+      .attr("x", 10)
+      .attr("y", function (d,i) { return 16 + i*25; })
+      .text(function (d) { return d.Country + ": " + d.Gold + " + " + d.Silver + " + " + d.Bronze + " = " + d.Total; })
+      .attr("style", "fill: white; font-family: Tahoma; font-size: .85em;");
+        
+
+    var datatable = d3.select("#datatable>table").selectAll("td").data(data).enter().append("tr");
+
+    datatable.append("td").attr("class", "country text-uppercase").text(function (d,i) {return d.Country;});
+    datatable.append("td").attr("class", "gold medals text-uppercase text-center").text(function (d,i) {return d.Gold;});
+    datatable.append("td").attr("class", "silver medals text-uppercase text-center").text(function (d,i) {return d.Silver;});
+    datatable.append("td").attr("class", "silver medals text-uppercase text-center").text(function (d,i) {return d.Bronze;});
+    datatable.append("td").attr("class", "bronze medals text-uppercase text-center").text(function (d,i) {return d.Total;});
   });
 </script>
 <script>
+
+  // var color_forced = d3.scale.category(20);
+  // var force = d3.layout.force()
+  //   .charge(-120)
+  //   .linkDistance(40)
+  //   .size([20,20]);
+
+  // var forcedSVG = d3.select("#fixtures").append("svg").attr({"width": 350,"height": 350});
+
+  // d3.json('/data/spgames/matchups-03.json', function(err, data) {
+  //   if (err) throw error;
+
+  //   force.nodes(data.node)
+  //     .links(data.links)
+  // });
   // var temp_data;
-  // // d3.json('/data/2015/weatherdata.json', function(err, data) {
-  // d3.json('http://api.openweathermap.org/data/2.5/weather?q=Lae,pg&unit=metric', function(err, data) {
-  //   // console.log(data);
-  //   temp_data = data;
-  //   var chart2 = d3.select("#second").append('svg').attr({
-  //     "width": 300,
-  //     "height": 300
-  //   });
+  // // d3.json("/data/2015/weatherdata.json", function(err, data) {
+  // d3.json("http://api.openweathermap.org/data/2.5/weather?q=Lae,pg&unit=metric", function(err, weatherdata) {
+  //   console.log(weatherdata);
+  //   temp_data = weatherdata;
+  //   var chart2 = d3.select("#second").append("svg").attr({ "width": 300, "height": 300 });
+  //   var graph2 = chart2.selectAll("text").data(temp_data);
+  //   graph2.enter().append("text").attr("y", function (d, i) { return 22.5 + i*22.5; }).attr("x", 20).text(function (d,i) { return i; });
 
-  //   var graph2 = chart2.selectAll("text").data(data);
-
-  //   graph2.enter().append('text').attr("y", function (d, i) { return 22.5 + i*22.5; }).attr("x", 20)
-  //     .text(function (d,i) { return d; });
+  //   if (err) { console.log(err); };
   // });
 </script>
 <script>
