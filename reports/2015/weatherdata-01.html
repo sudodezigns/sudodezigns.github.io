@@ -86,32 +86,41 @@
   <script src="/js/animate.js"></script>
   <script src="/js/custom.js"></script>
   <script src="/script.js"></script>
-  <script src="/d3/d3.min.js"></script>
+  <script src="/d3/d3.js"></script>
 <script>
   var temp_data;
-  d3.json("http://api.openweathermap.org/data/2.5/weather?q=Lae,PG&unit=metric&APPID=375cc7f16728bf0dddde9ec5c3a33f0b", function(err, weatherdata) {
-    console.log(weatherdata.coord.lon);
-    temp_data = weatherdata;
-    var chart1 = d3.select("#first").append("svg").attr("width","300").attr("height","200");
-    chart1//.selectAll("rect")
-    .data(weatherdata)
-      .enter().append("rect")
-          .attr("x", 10)
-          .attr("y", 10)
-          .attr("width", 100)
-          .attr("height", 100)
-          // .attr("rx", 0)
-          // .attr("ry", 0)
-          .style("fill", "#000");
-    chart1//.selectAll("circle")
-    .data(temp_data)
-    .enter().append("circle")
-        .attr("cx", 20)
-        .attr("cy", 20)
-        .attr("r", 100)
-        .style("fill", "#000");
-    chart1//.selectAll("text")
-    .data(temp_data).enter().append("text").text("Freaky Frida");
+  d3.json("http://api.openweathermap.org/data/2.5/weather?q=Lae,PG&unit=metric&APPID=375cc7f16728bf0dddde9ec5c3a33f0b", function(err, data) {
+  // d3.json("/data/2015/weatherdata.json", function(data) {
+    console.log("This is the raw data OBJECT " , data);
+    temp_data = data;
+    var datasetArray = new Array(data);
+    console.log("This is the formated data ARRAY " , datasetArray)
+    d3.select("#first").append("svg").attr("width",300).attr("height",200);
+    var chart1 = d3.select("#first>svg")
+      .selectAll(".haha")
+      .data(datasetArray);
+    chart1.enter()
+      .append('rect')
+      .attr({'y':100,'x':100,"class":"haha","width":200,"heigh":200})
+      .style({'fill':'gold', 'stroke':'black', 'stroke-width':'2px'});
+
+    var chart1Descreption = chart1.enter();
+    chart1Descreption
+    .append('text')
+      .attr({"x": 100,"y": 100,"class":"haha"})
+      .text(function (d) { return d.name; });
+      chart1Descreption
+    .append('text')
+      .attr({"x": 100,"y": 120,"class":"haha"})
+      .text(function (d) { return d.main.humidity; })
+      chart1Descreption
+    .append('text')
+      .attr({"x": 100,"y": 140,"class":"haha"})
+      .text(function (d) { return d.main.temp; })
+      chart1Descreption
+    .append('text')
+      .attr({"x": 100,"y": 160,"class":"haha"})
+      .text(function (d) { return d.weather[0].description; });
   });
 </script>
 <script>
