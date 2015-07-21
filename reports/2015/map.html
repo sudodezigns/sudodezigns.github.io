@@ -10,7 +10,7 @@
     <script src="/topojson.min.js"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans|Oswald|Tangerine|Roboto:500|Droid+Serif|Lobster|Dancing+Script|Bangers" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
     <style>
@@ -64,8 +64,27 @@
           $("#insert-menu").load("/menu.html");
           $("#insert-footer").load("/footer.html");
         })
+
       </script>
       <script>
+      var temp_data;
+      d3.json('http://api.openweathermap.org/data/2.5/group?id=2096742,2092740,2091996,2094342&unitsq=metric&APPID=375cc7f16728bf0dddde9ec5c3a33f0b', function(err, weatherdata) {
+        temp_data = weatherdata;
+        console.log(weatherdata)
+      });
+          var options = {enableHighAccuracy: true,timeout: 5000,maximumAge: 0};
+          function error(err) {console.warn('ERROR(' + err.code + '): ' + err.message);};
+
+          function success(pos) {
+            var crd = pos.coords;
+            console.log('Your current position is:');
+            console.log('Latitude : ' + crd.latitude);
+            console.log('Longitude: ' + crd.longitude);
+            console.log('More or less ' + crd.accuracy + ' meters.');
+          };
+
+          navigator.geolocation.getCurrentPosition(success, error, options);
+        // api.openweathermap.org/data/2.5/weather?lat=35&lon=139
 
         var width = 1107, height = 635;
         // var projection = d3.geo.albers()

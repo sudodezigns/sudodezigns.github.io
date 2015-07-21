@@ -88,13 +88,18 @@
   <script src="/script.js"></script>
   <script src="/d3/d3.js"></script>
 <script>
-  var temp_data;
-  d3.json("http://api.openweathermap.org/data/2.5/weather?q=Lae,PG&unit=metric&APPID=375cc7f16728bf0dddde9ec5c3a33f0b", function(err, data) {
+  var temp_data, temp_data1, temp_data2, temp_data3, temp_data4;
+      d3.json('http://api.openweathermap.org/data/2.5/group?id=2096742,2092740,2091996,2094342&unitsq=metric&APPID=375cc7f16728bf0dddde9ec5c3a33f0b', function(err, data) {
+  // d3.json("http://api.openweathermap.org/data/2.5/weather?q=Lae,PG&unit=metric&APPID=375cc7f16728bf0dddde9ec5c3a33f0b", function(err, data) {
   // d3.json("/data/2015/weatherdata.json", function(data) {
     console.log("This is the raw data OBJECT " , data);
-    temp_data = data;
-    var datasetArray = new Array(data);
-    console.log("This is the formated data ARRAY " , datasetArray)
+    temp_data = data; // data now contains 4 objects in an "array of objects"
+    temp_data1 = data.list[0];
+    temp_data2 = data.list[1];
+    temp_data3 = data.list[2];
+    temp_data4 = data.list[3];
+    var datasetArray = temp_data1; //new Array(data);
+    // console.log("This is the formated data ARRAY " , datasetArray)
     d3.select("#first").append("svg").attr("width",300).attr("height",200);
     var chart1 = d3.select("#first>svg")
       .selectAll(".haha")
@@ -104,7 +109,7 @@
       .attr({'y':100,'x':100,"class":"haha","width":200,"heigh":200})
       .style({'fill':'gold', 'stroke':'black', 'stroke-width':'2px'});
 
-    var chart1Descreption = chart1.enter();
+    var chart1Descreption = chart1.enter().append('g');
     chart1Descreption
     .append('text')
       .attr({"x": 100,"y": 100,"class":"haha"})

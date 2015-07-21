@@ -23,18 +23,9 @@
     <![endif]-->
 
 <style type="text/css">
-  div.tooltip {   
-  position: absolute;           
-  text-align: center;           
-  width: 60px;                  
-  height: 28px;                 
-  padding: 2px;             
-  font: 12px sans-serif;        
-  background: lightsteelblue;   
-  border: 0px;      
-  border-radius: 8px;           
-  pointer-events: none;         
-}
+  #second>svg {
+    background-color: cadetblue;
+  }
 </style>
 </head>
     <body data-page-type="reporter" data-year="2015" data-month="may">
@@ -72,9 +63,9 @@
       <div id="graphs" class="row col-sm-12">
         <div class="row">
           <h3 class="text-uppercase">Top 3 Nations</h3>
-          <div id="first" class="col-sm-4"></div>
-          <div id="second" class="col-sm-4"></div>
-          <div id="third" class="col-sm-4"></div>
+          <div id="first" class="col-md-4 col-xs-12"></div>
+          <div id="second" class="col-md-4 col-xs-12"></div>
+          <div id="third" class="col-md-4 col-xs-12"></div>
         </div>
         <div class="row">
           <div id="fixtures"></div>
@@ -115,17 +106,17 @@
     ext_data = data;
     // console.log(d3.max(data, function (d) { return +d.Total; }));
 
-    var chartDimensions = {"h":130, "w":350};
-    var heightScale = d3.scale.linear().domain([0, d3.max(data, function (d) { return +d.Total; })]).range([0, (chartDimensions.w*3/4)]);
+    var chartDimensions = {"h":130, "w":$("#first").width()},
+        chartPadding = {"top":10,"left":5,"bottom":20,"right":5};
+
+    var heightScale = d3.scale.linear()
+          .domain([0, d3.max(data, function (d) { return +d.Total; })])
+          .range([0, (chartDimensions.w*3/4)]),
+        widthScale = d3.scale.linear()
+          .range([0,($("#first").width()/32 - chartPadding.left - chartPadding.right)]);
     var colorScale = d3.scale.linear().domain([0,1,2]).range(["gold","yellowgreen"]);
 
     var chart1 = d3.select("#first").append("svg").attr({"width": chartDimensions.w,"height": chartDimensions.h});
-    var tip = d3.tip()
-      .attr("class","d3-tip")
-      .offset([-10,0])
-      .html(function (d) { return "<strong>"+ d.Country+"</strong>"+"<span> - "+d.Total+" Medals</span>"; });
-    
-    chart1.call(tip);
 
     var barChar1 = chart1.selectAll("rect").data(data);
     // create rectangles
@@ -135,9 +126,7 @@
       .attr("y", function (d,i) { return i*25; })
       .attr("width", function (d) { return heightScale(d.Total); })
       .attr("height", 22.5)
-      .style("fill", function (d,i) { return colorScale(i)})
-    .on("mouseover", tip.show())
-    .on("mouseout", tip.show());
+      .style("fill", function (d,i) { return colorScale(i)});
 
     // create rectangle labels
     var barChar1Label = chart1.selectAll("text").data(data);
@@ -145,31 +134,55 @@
       .filter(function(d, i) { if (i < 5) { return d; }; })
       .attr("x", 10)
       .attr("y", function (d,i) { return 16 + i*25; })
-      .text(function (d) { return d.Country; })
+      .text(function (d) { return d.Total + " medals " + d.Country; })
       .attr("style", "fill: white; font-family: Tahoma; font-size: .85em;");
         
-
-    var chart2 = d3.select("#second").append("svg").attr({"width": chartDimensions.w,"height": 500});
+    var chart2 = d3.select("#second").append("svg").attr({"width": chartDimensions.w,"height": chartDimensions.h});
     var barChar2 = chart2.selectAll("circle").data(data);
     // create rectangles
     barChar2.enter().append("circle")
-      .filter(function(d, i) { if (i < 3) { return d; }; })
-      .attr("cx", function (d) { return heightScale(d.Total); })
-      .attr("cy", function (d,i) { return 50 + i*25; })
-      .attr("r", function (d) { return d.Total/3*2; })
+      .filter(function(d, i) { if (i < 5) { return d; }; })
+      .attr("cy", d3.max(data, function (d) {return widthScale(d.Total); }))// function (d,i) { return 50 + i*25; })
+      .attr("cx", function (d,i) { return chartDimensions.w/6 * i; }) // create a function that returns the radius of the previous array item for calculation;
+      .attr("r", function (d) { return 2*widthScale(d.Total)/3; })
       // .attr("height", 22.5)
-      .style("fill", function (d,i) { return colorScale(i)});
+      .style("fill", function (d,i) { return colorScale(i)})
+      .on("mouseover", function (d) {
+        d3.select(this)
+        .transition().ease("elastic").duration(2000).delay(500)
+        .attr({
+          'stroke': 'black',
+          'storke-width': '5px',
+          'z-index': '1000'
+        });
+      })
+      .on("mouseout", function (d) {
+        d3.select(this)
+        .transition().ease("elastic").duration(2000).delay(500)
+        .attr({
+          'stroke': 'none',
+          'storke-width': '0'
+        })
+        .attr("r", function (d) { return 2*widthScale(d.Total)/3; });
+      });
+
+    var chart3 = d3.select("#third").append("svg").attr({"width": chartDimensions.w,"height": chartDimensions.h});
+    var barChar3 = chart3.selectAll("path").data(data);
+    // create rectangles
+    barChar3.enter().append("path")
+      .filter(function(d, i) { if (i < 10) { return d; }; })
+      .attr("d", function (d) { return 2*widthScale(d.Total)/3; });
 
     // create rectangle labels
-    var barChar2Label = chart2.selectAll("text").data(data);
-    barChar2Label.enter().append("text")
+    var barChar3Label = chart3.selectAll("text").data(data);
+    barChar3Label.enter().append("text")
       .filter(function(d, i) { if (i < 3) { return d; }; })
-      .attr("x", 10)
+      .attr("x", function (d,i) { return 15 + i*5; })
+      .attr("class","hide")      
       .attr("y", function (d,i) { return 16 + i*25; })
       .text(function (d) { return d.Country + " won " + d.Total + " medals"; })
       .attr("style", "fill: black; font-family: Tahoma; font-size: .85em;");
         
-
     var datatable = d3.select("#datatable>table").selectAll("td").data(data).enter().append("tr");
 
     datatable.append("td").attr("class", "country text-uppercase").text(function (d,i) {return d.Country;});
